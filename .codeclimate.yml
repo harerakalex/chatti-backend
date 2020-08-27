@@ -5,3 +5,4 @@ exclude_patterns:
   - '**/__mocks__/*'
   - './src/database/*'
   - './src/helpers/mailer/templates/*'
+  - './src/config/*'
