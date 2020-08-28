@@ -1,4 +1,4 @@
-import { HomeController } from '../home/home.controller';
+import { HomeController } from '../home.controller';
 
 describe('HomeController', () => {
   let req: any;
