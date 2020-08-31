@@ -5,8 +5,9 @@ import winston from 'winston';
 config();
 
 const modelsPath = `${__dirname}/models`;
+const { DATABASE_URL, NODE_ENV } = process.env;
 
-export const database = new Sequelize(process.env.DATABASE_URL, {
+export const database = new Sequelize(DATABASE_URL, {
   logging: false,
   models: [modelsPath],
 });
@@ -20,6 +21,7 @@ const verify = async () => {
   }
 };
 
-verify();
+const callVerifyFunction = () => (NODE_ENV === 'test' ? true : verify());
+callVerifyFunction();
 
 export default database;

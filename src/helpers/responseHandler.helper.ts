@@ -14,4 +14,20 @@ export class ResponseHandler {
       data,
     });
   }
+
+  static sendErrorResponse(res: Response, errorInstance: IError) {
+    const { message, error, statusCode } = errorInstance;
+    const code = statusCode || 500;
+    return res.status(code).json({
+      success: false,
+      message,
+      error,
+    });
+  }
+}
+
+export interface IError {
+  message: string;
+  statusCode: number;
+  error: Error;
 }

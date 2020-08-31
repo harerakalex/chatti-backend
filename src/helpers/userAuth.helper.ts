@@ -16,7 +16,7 @@ export class UserAuth {
    * @param  {variable} compare The actual user password
    * @param hashedPassword This function return true if password equals
    */
-  static unhashPassword(hashedPass: string, compare: string) {
-    return bcrypt.compareSync(hashedPass, compare);
-  }
+  // static unhashPassword(hashedPass: string, compare: string) {
+  //   return bcrypt.compareSync(hashedPass, compare);
+  // }
 }

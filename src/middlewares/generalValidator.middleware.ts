@@ -1,6 +1,6 @@
 import { Response, NextFunction } from 'express';
 import Joi from 'joi';
-import { HttpError } from '../helpers/errorHandler.helper';
+import { ResponseHandler } from '../helpers/responseHandler.helper';
 
 export class GeneralValidator {
   /**
@@ -20,14 +20,11 @@ export class GeneralValidator {
     const { error } = schema.validate(data);
     if (error) {
       const message = error.details[0].message.replace(/\\|(")/g, '');
-      return HttpError.sendErrorResponse(
-        {
-          statusCode: 400,
-          message: message,
-          error: error,
-        },
-        res
-      );
+      return ResponseHandler.sendErrorResponse(res, {
+        statusCode: 400,
+        message: message,
+        error: error,
+      });
     }
     next();
   }

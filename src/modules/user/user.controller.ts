@@ -1,7 +1,6 @@
 import { Request, Response } from 'express';
-import userService from './user.service';
+import { userService } from './user.service';
 import { ResponseHandler } from '../../helpers/responseHandler.helper';
-import { HttpError } from '../../helpers/errorHandler.helper';
 import { UserAuth } from '../../helpers/userAuth.helper';
 
 export class UserController {
@@ -22,7 +21,7 @@ export class UserController {
       delete user.verified;
       return ResponseHandler.sendResponse(res, 201, true, message, user);
     } catch (error) {
-      HttpError.sendErrorResponse(error, res);
+      return ResponseHandler.sendErrorResponse(res, error);
     }
   }
 }

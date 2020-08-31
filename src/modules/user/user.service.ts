@@ -3,7 +3,7 @@ import { database } from '../../database';
 import { User } from '../../database/models/User';
 import { IUser } from '../../database/models/interfaces/user.interface';
 
-class UserServise extends BaseService<User, number> {
+export default class UserService extends BaseService<User, number> {
   constructor(user = database.getRepository(User)) {
     super(user);
   }
@@ -29,4 +29,4 @@ class UserServise extends BaseService<User, number> {
   }
 }
 
-export default new UserServise();
+export const userService = new UserService();

@@ -1,5 +1,5 @@
 import { Request, Response, NextFunction } from 'express';
-import userService from '../modules/user/user.service';
+import { userService } from '../modules/user/user.service';
 import { GeneralValidator } from './generalValidator.middleware';
 import { ResponseHandler } from '../helpers/responseHandler.helper';
 import { registerUserSchema } from '../helpers/validationSchema.helper';
