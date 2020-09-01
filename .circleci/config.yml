@@ -4,6 +4,7 @@ jobs:
     environment:
       CC_TEST_REPORTER_ID: 053e494a96742ff07474cb59db7abc3ff1f06a29db5a20e1ea20fed5e0a1d120
       DATABASE_URL: postgres://postgres:12345@localhost:5432/chattidb
+      JWT_SECRET_KEY: kigali
     docker:
       - image: circleci/node:12.13.0
     steps:

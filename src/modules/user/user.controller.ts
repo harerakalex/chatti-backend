@@ -24,4 +24,19 @@ export class UserController {
       return ResponseHandler.sendErrorResponse(res, error);
     }
   }
+
+  /**
+   * @description user should login successfully
+   * @param  {object} req The http request object
+   * @param  {object} res The http response object
+   */
+  static async userLogin(req: Request | any, res: Response) {
+    const { user } = req;
+    const token = UserAuth.generateToken(user);
+    user.token = token;
+    delete user.password;
+    delete user.verified;
+    const message = 'Welcome, you are successfully logged in';
+    return ResponseHandler.sendResponse(res, 200, true, message, user);
+  }
 }

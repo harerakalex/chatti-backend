@@ -27,7 +27,7 @@ export class ResponseHandler {
 }
 
 export interface IError {
-  message: string;
-  statusCode: number;
-  error: Error;
+  message?: string;
+  statusCode?: number;
+  error?: Error;
 }
