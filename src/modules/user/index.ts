@@ -11,3 +11,11 @@ userRouter.post(
   UserValidator.validateUserExists,
   UserController.addNewUser
 );
+
+// Route for user sign in
+userRouter.post(
+  '/login',
+  UserValidator.validateLoginBody,
+  UserValidator.passportAuthenticate,
+  UserController.userLogin
+);
