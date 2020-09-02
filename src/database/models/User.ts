@@ -6,8 +6,10 @@ import {
   DataType,
   CreatedAt,
   UpdatedAt,
+  HasOne,
 } from 'sequelize-typescript';
 import { Base } from '../base';
+import { Picture } from './Picture';
 
 @Table
 export class User extends Base<User> {
@@ -48,4 +50,7 @@ export class User extends Base<User> {
   @UpdatedAt
   @Column
   updatedAt!: Date;
+
+  @HasOne(() => Picture)
+  picture: Picture;
 }
