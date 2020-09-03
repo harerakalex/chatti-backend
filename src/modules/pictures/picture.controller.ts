@@ -13,9 +13,11 @@ export class PictureController {
   static async uploadPicture(req: Request | any, res: Response) {
     try {
       const file = PictureHelper.convertBufferToDataUrl(req, res);
-      const url = await PictureHelper.uploadSong(res, file);
+      const url = await PictureHelper.uploadPhoto(res, file);
+      // const url = 'fake photo3';
       const userId = req.user.id;
       const picture = await pictureService.savePicture({ userId, url });
+      console.log('=====', picture);
       const message = 'Profile picture uploaded successfully';
       return ResponseHandler.sendResponse(res, 201, true, message, picture);
     } catch (error) {

@@ -30,7 +30,7 @@ export class PictureHelper {
    *  @param {string} file containing the field object
    * @returns {string} The picture url from claudinary
    */
-  static async uploadSong(res: any, file: string) {
+  static async uploadPhoto(res: any, file: string) {
     try {
       const songUrl = await cloudinary.v2.uploader.upload(file, {
         folder: 'chatti',

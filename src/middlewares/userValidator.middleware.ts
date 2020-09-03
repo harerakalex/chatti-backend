@@ -76,19 +76,11 @@ export class UserValidator {
    * @param {object} user IUser
    * @returns {object} Verify token and Return user Info
    */
-  static async verifyToken(
-    req: Request | any,
-    res: Response,
-    next: NextFunction
-  ) {
+  static async verifyToken(req: Request, res: Response, next: NextFunction) {
     const token: string = req.headers.authorization;
     if (!token) {
-      return ResponseHandler.sendResponse(
-        res,
-        401,
-        false,
-        'Please log in or Register'
-      );
+      const message = 'Please log in or Register';
+      return ResponseHandler.sendResponse(res, 401, false, message);
     } else {
       jwt.verify(
         token,
