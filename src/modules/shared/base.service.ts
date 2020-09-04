@@ -35,6 +35,17 @@ export class BaseService<T extends Base<T>, TId extends string | number> {
     return result.get() as T;
   };
 
+  async update(id: TId, data: any, returning?: IReturningOptions) {
+    const [, [result]] = await this.model.update(
+      { ...data },
+      {
+        where: { id },
+        returning: true,
+      }
+    );
+    return result.get() as T;
+  }
+
   private createWhereOptions = (option: IPropOption<T>) => ({
     [String(option.prop)]: option.value,
   });
@@ -43,4 +54,9 @@ export class BaseService<T extends Base<T>, TId extends string | number> {
 export interface IPropOption<T> {
   prop: keyof T | Symbol;
   value: any;
+}
+
+export interface IReturningOptions {
+  returning: boolean;
+  include?: Includeable[];
 }

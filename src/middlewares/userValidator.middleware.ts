@@ -1,9 +1,11 @@
 import { Request, Response, NextFunction } from 'express';
 import passport from 'passport';
+import jwt from 'jsonwebtoken';
 import { userService } from '../modules/user/user.service';
 import { GeneralValidator } from './generalValidator.middleware';
 import { ResponseHandler } from '../helpers/responseHandler.helper';
 import * as schemas from '../helpers/validationSchema.helper';
+import { IUser } from '../database/models/interfaces/user.interface';
 
 export class UserValidator {
   /**
@@ -68,5 +70,29 @@ export class UserValidator {
       req.user = user;
       next();
     })(req, res);
+  }
+
+  /**
+   * @param {object} user IUser
+   * @returns {object} Verify token and Return user Info
+   */
+  static async verifyToken(req: Request, res: Response, next: NextFunction) {
+    const token: string = req.headers.authorization;
+    if (!token) {
+      const message = 'Please log in or Register';
+      return ResponseHandler.sendResponse(res, 401, false, message);
+    } else {
+      jwt.verify(
+        token,
+        process.env.JWT_SECRET_KEY,
+        async (error: any, decoded: IUser) => {
+          if (error) {
+            return ResponseHandler.sendResponse(res, 403, true, error.message);
+          }
+          req.user = decoded;
+          next();
+        }
+      );
+    }
   }
 }
