@@ -1,6 +1,6 @@
 import UserService from '../user.service';
 import { mockUserRepo } from '../__mocks__/user.service';
-import { userInfo } from '../__mocks__/user.mocks';
+import { userInfo, updateUserInfo } from '../__mocks__/user.mocks';
 
 describe(UserService, () => {
   let userService: UserService;
@@ -29,5 +29,11 @@ describe(UserService, () => {
     const email = 'fake email';
     const result = await userService.findUserByEmail(email);
     expect(result).toEqual(null);
+  });
+
+  it('Should update user', async () => {
+    const result = await userService.updateUser(updateUserInfo);
+    expect(result.bio).toEqual(updateUserInfo.bio);
+    expect(result.displayName).toEqual(updateUserInfo.displayName);
   });
 });

@@ -27,6 +27,17 @@ export default class UserService extends BaseService<User, number> {
     const result = await this.findOneByProp({ prop: 'email', value: email });
     return result;
   }
+
+  /**
+   * @description Update user profile
+   * @param  {object} user user info to update
+   * @returns {Promise} The http response object
+   */
+  async updateUser(user: IUser) {
+    const { id } = user;
+    const result: IUser = await this.update(id, user);
+    return result;
+  }
 }
 
 export const userService = new UserService();

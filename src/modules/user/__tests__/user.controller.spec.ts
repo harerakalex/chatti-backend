@@ -1,12 +1,13 @@
 import { UserController } from '../user.controller';
 import { userService } from '../user.service';
 import { ResponseHandler } from '../../../helpers/responseHandler.helper';
-import { userInfo } from '../__mocks__/user.mocks';
+import { userInfo, updateUserInfo } from '../__mocks__/user.mocks';
 
 describe(UserController, () => {
   let req: any;
   let res: any;
   let createUserSpy: any;
+  let updateSpy: any;
   // let errorResponseSpy: any;
 
   req = { body: userInfo, user: userInfo };
@@ -57,6 +58,24 @@ describe(UserController, () => {
     it('should log the user in successfully', async () => {
       await UserController.userLogin(req, res);
       expect(res.status).toBeCalledWith(200);
+    });
+  });
+
+  describe(UserController.updateUserProfile, () => {
+    beforeEach(() => {
+      updateSpy = jest.spyOn(userService, 'updateUser');
+    });
+    const req = { body: updateUserInfo, user: updateUserInfo };
+    it('should update the user in successfully', async () => {
+      updateSpy.mockReturnValue({ ...userInfo, updateUserInfo });
+      await UserController.updateUserProfile(req, res);
+      expect(res.status).toBeCalledWith(200);
+    });
+
+    it('should send HTTP errors', async () => {
+      updateSpy.mockRejectedValueOnce('an error');
+      await UserController.updateUserProfile(req, res);
+      expect(ResponseHandler.sendErrorResponse).toHaveBeenCalled();
     });
   });
 });

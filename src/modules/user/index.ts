@@ -19,3 +19,11 @@ userRouter.post(
   UserValidator.passportAuthenticate,
   UserController.userLogin
 );
+
+// routes for updating user profile
+userRouter.put(
+  '/profile',
+  UserValidator.verifyToken,
+  UserValidator.validateUpdateUser,
+  UserController.updateUserProfile
+);

@@ -39,4 +39,22 @@ export class UserController {
     const message = 'Welcome, you are successfully logged in';
     return ResponseHandler.sendResponse(res, 200, true, message, user);
   }
+
+  /**
+   * @description user should login successfully
+   * @param  {object} req The http request object
+   * @param  {object} res The http response object
+   */
+  static async updateUserProfile(req: Request | any, res: Response) {
+    try {
+      const { id } = req.user;
+      req.body.id = id;
+      const updatedUser = await userService.updateUser(req.body);
+      delete updatedUser.password;
+      const message = 'Successfull updated the profile';
+      return ResponseHandler.sendResponse(res, 200, true, message, updatedUser);
+    } catch (error) {
+      return ResponseHandler.sendErrorResponse(res, error);
+    }
+  }
 }
