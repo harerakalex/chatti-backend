@@ -35,6 +35,21 @@ export class UserValidator {
   }
 
   /**
+   * @description This middleware checks for the required properties
+   * @param  {object} req The HTTP request sent
+   * @param  {object} res The HTTP responds object
+   * @param  {function} next The next middleware
+   */
+  static validateUpdateUser(req: Request, res: Response, next: NextFunction) {
+    return GeneralValidator.validator(
+      res,
+      next,
+      req.body,
+      schemas.updateUserSchema
+    );
+  }
+
+  /**
    * @description This middleware checks if user already exists by email
    * @param  {object} req The HTTP request sent
    * @param  {object} res The HTTP responds object
