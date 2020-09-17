@@ -2,7 +2,7 @@
   "name": "chatti-backend",
   "version": "1.0.0",
   "description": "Real time chat Application",
-  "main": "./src/server.js",
+  "main": "dist/server.js",
   "repository": "https://github.com/harerakalex/chatti-backend.git",
   "author": "harerakalex <hareraloston@gmail.com>",
   "license": "MIT",
