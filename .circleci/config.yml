@@ -62,8 +62,6 @@ jobs:
       - run:
           command: |
             git push heroku develop:master
-            heroku run bash
-            yarn run db:migrate
             sleep 5 # sleep for 5 seconds to wait for dynos
             heroku restart
 
