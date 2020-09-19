@@ -13,7 +13,7 @@
     "start": "node .",
     "dev": "nodemon",
     "test": "node --expose-gc node_modules/jest/bin/jest --coverage --logHeapUsage --runInBand --no-cache --detectOpenHandles --forceExit",
-    "sequelize": "ts-node node_modules/.bin/sequelize",
+    "sequelize": "node_modules/.bin/sequelize",
     "db:seed": "yarn sequelize db:seed:all",
     "db:seed:undo": "yarn sequelize db:seed:undo",
     "db:seed:undo:all": "yarn sequelize db:seed:undo:all",
