@@ -14,6 +14,9 @@ defaults: &defaults
         POSTGRES_DB: chattidb
 
 version: 2
+orbs:
+  heroku: circleci/heroku@0.0.10.
+
 jobs:
   checkout_code:
     <<: *defaults
@@ -46,6 +49,22 @@ jobs:
             yarn run test
             ./cc-test-reporter after-build --exit-code $?
 
+  heroku-deploy-staging:
+    <<: *defaults
+    environment:
+      HEROKU_APP: 'chatti-app-backend-staging'
+    steps:
+      - checkout
+      - run:
+          name: Setup Heroku
+          command: bash .circleci/setup-heroku.sh # run a script to set up Heroku
+
+      - run:
+          command: |
+            git push heroku develop:master
+            sleep 5 # sleep for 5 seconds to wait for dynos
+            heroku restart
+
 workflows:
   version: 2
   check_build_deploy:
@@ -55,3 +74,10 @@ workflows:
       - checkout_code:
           requires:
             - approve_deployment
+      - heroku-deploy-staging:
+          requires:
+            - approve_deployment
+            - checkout_code
+          filters:
+            branches:
+              only: develop
