@@ -78,3 +78,6 @@ workflows:
           requires:
             - approve_deployment
             - checkout_code
+          filters:
+            branches:
+              only: develop
