@@ -14,14 +14,14 @@
     "dev": "nodemon",
     "test": "node --expose-gc node_modules/jest/bin/jest --coverage --logHeapUsage --runInBand --no-cache --detectOpenHandles --forceExit",
     "sequelize": "ts-node node_modules/.bin/sequelize",
-    "seed": "yarn sequelize db:seed:all",
-    "seed:undo": "yarn sequelize db:seed:undo",
-    "seed:undo:all": "yarn sequelize db:seed:undo:all",
-    "migrate": "yarn sequelize db:migrate",
-    "migrate:undo": "yarn sequelize db:migrate:undo",
-    "migrate:rollback": "yarn sequelize db:migrate:undo:all",
-    "create:db": "yarn sequelize db:create chattidb",
-    "drop:db": "yarn sequelize db:drop chattidb"
+    "db:seed": "yarn sequelize db:seed:all",
+    "db:seed:undo": "yarn sequelize db:seed:undo",
+    "db:seed:undo:all": "yarn sequelize db:seed:undo:all",
+    "db:migrate": "yarn sequelize db:migrate",
+    "db:migrate:undo": "yarn sequelize db:migrate:undo",
+    "db:migrate:rollback": "yarn sequelize db:migrate:undo:all",
+    "db:create:db": "yarn sequelize db:create chattidb",
+    "db:drop:db": "yarn sequelize db:drop chattidb"
   },
   "dependencies": {
     "@types/bcrypt": "^3.0.0",
