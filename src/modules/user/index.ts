@@ -27,3 +27,6 @@ userRouter.put(
   UserValidator.validateUpdateUser,
   UserController.updateUserProfile
 );
+
+// Routes for searching a user by name
+userRouter.get('/', UserController.searchForUser);

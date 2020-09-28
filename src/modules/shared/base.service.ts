@@ -1,5 +1,5 @@
 import { Repository } from 'sequelize-typescript';
-import { Includeable } from 'sequelize/types';
+import { Includeable, WhereOptions, Order } from 'sequelize/types';
 import { Base } from '../../database/base';
 
 export class BaseService<T extends Base<T>, TId extends string | number> {
@@ -30,6 +30,11 @@ export class BaseService<T extends Base<T>, TId extends string | number> {
   //   return result.map((item) => item.get()) as T[];
   // };
 
+  findAll = async (options: IFindOptions): Promise<T[]> => {
+    const result = await this.model.findAll(options);
+    return result.map((e) => e.get({ plain: true })) as T[];
+  };
+
   add = async (model: Object) => {
     const result = await this.model.create(model);
     return result.get() as T;
@@ -59,4 +64,14 @@ export interface IPropOption<T> {
 export interface IReturningOptions {
   returning: boolean;
   include?: Includeable[];
+}
+
+export interface IFindOptions {
+  where?: WhereOptions;
+  include?: Includeable[];
+  order?: Order;
+  attributes?: string[];
+  group?: string[];
+  subQuery?: boolean;
+  limit?: number;
 }

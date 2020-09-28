@@ -1,3 +1,4 @@
+import { Op } from 'sequelize';
 import { BaseService } from '../shared/base.service';
 import { database } from '../../database';
 import { User } from '../../database/models/User';
@@ -36,6 +37,24 @@ export default class UserService extends BaseService<User, number> {
   async updateUser(user: IUser) {
     const { id } = user;
     const result: IUser = await this.update(id, user);
+    return result;
+  }
+
+  /**
+   * @description Search for user
+   * @param  {string} name query to search for
+   * @returns {Promise} The http response object
+   */
+  async findUserByNames(name: string) {
+    const result = await this.findAll({
+      where: {
+        [Op.or]: {
+          displayName: { [Op.iLike]: `%${name}%` },
+          firstName: { [Op.iLike]: `%${name}%` },
+          lastName: { [Op.iLike]: `%${name}%` },
+        },
+      },
+    });
     return result;
   }
 }

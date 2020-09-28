@@ -57,4 +57,20 @@ export class UserController {
       return ResponseHandler.sendErrorResponse(res, error);
     }
   }
+
+  /**
+   * @description user should be able to search for another user
+   * @param  {object} req The http request object
+   * @param  {object} res The http response object
+   */
+  static async searchForUser(req: Request, res: Response) {
+    try {
+      const name = req.query.name as string;
+      const users = await userService.findUserByNames(name);
+      const message = 'Successfull retrieved users';
+      return ResponseHandler.sendResponse(res, 200, true, message, users);
+    } catch (error) {
+      return ResponseHandler.sendErrorResponse(res, error);
+    }
+  }
 }

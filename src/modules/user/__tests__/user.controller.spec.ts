@@ -8,9 +8,10 @@ describe(UserController, () => {
   let res: any;
   let createUserSpy: any;
   let updateSpy: any;
+  let searchForUserSpy: any;
   // let errorResponseSpy: any;
 
-  req = { body: userInfo, user: userInfo };
+  req = { body: userInfo, user: userInfo, query: { name: 'carlos' } };
 
   res = {
     status: jest
@@ -75,6 +76,23 @@ describe(UserController, () => {
     it('should send HTTP errors', async () => {
       updateSpy.mockRejectedValueOnce('an error');
       await UserController.updateUserProfile(req, res);
+      expect(ResponseHandler.sendErrorResponse).toHaveBeenCalled();
+    });
+  });
+
+  describe(UserController.searchForUser, () => {
+    beforeAll(() => {
+      searchForUserSpy = jest.spyOn(userService, 'findUserByNames');
+    });
+    it('Should find the user', async () => {
+      searchForUserSpy.mockReturnValue([userInfo]);
+      await UserController.searchForUser(req, res);
+      expect(res.status).toBeCalledWith(200);
+    });
+
+    it('Sould send the error', async () => {
+      searchForUserSpy.mockRejectedValueOnce('an error');
+      await UserController.searchForUser(req, res);
       expect(ResponseHandler.sendErrorResponse).toHaveBeenCalled();
     });
   });
