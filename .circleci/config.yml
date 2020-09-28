@@ -52,7 +52,7 @@ jobs:
   heroku-deploy-staging:
     <<: *defaults
     environment:
-      HEROKU_APP: ${HEROKU_APP}
+      HEROKU_APP: 'chatti-app-backend-staging'
     steps:
       - checkout
       - run:
