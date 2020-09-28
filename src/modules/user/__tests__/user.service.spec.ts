@@ -1,12 +1,17 @@
 import UserService from '../user.service';
 import { mockUserRepo } from '../__mocks__/user.service';
 import { userInfo, updateUserInfo } from '../__mocks__/user.mocks';
+// import { User } from '../../../database/models/User';
 
 describe(UserService, () => {
   let userService: UserService;
+  let userServiceUsingDb: any;
+  // let myspy: any;
 
   beforeAll(() => {
     userService = new UserService(mockUserRepo);
+    // userServiceUsingDb = new UserService();
+    // myspy = jest.spyOn(User, 'findAll');
   });
 
   afterEach(() => {
@@ -36,4 +41,16 @@ describe(UserService, () => {
     expect(result.bio).toEqual(updateUserInfo.bio);
     expect(result.displayName).toEqual(updateUserInfo.displayName);
   });
+
+  it('Should find a user', async () => {
+    const result = await userService.findUserByNames('carlos');
+    expect(result[0].firstName).toEqual(userInfo.firstName);
+  });
+
+  // it('Should find a user', async () => {
+  //   myspy.mockResolvedValue(mockCreatedProvider);
+  //   const result = await userServiceUsingDb.findUserByNames('carlos1');
+  //   console.log('result=', result);
+  //   expect(result[0].firstName).toEqual(userInfo.firstName);
+  // });
 });
