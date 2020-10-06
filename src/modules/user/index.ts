@@ -9,6 +9,7 @@ userRouter.post(
   '/signup',
   UserValidator.validateUserBody,
   UserValidator.validateUserExists,
+  UserValidator.displayNameExists,
   UserController.addNewUser
 );
 
@@ -30,3 +31,6 @@ userRouter.put(
 
 // Routes for searching a user by name
 userRouter.get('/', UserController.searchForUser);
+
+// Route to view user profile
+userRouter.get('/profile/:displayName', UserController.viewUserProfile);

@@ -110,4 +110,24 @@ export class UserValidator {
       );
     }
   }
+
+  /**
+   * @description This middleware checks if user already exists by email
+   * @param  {object} req The HTTP request sent
+   * @param  {object} res The HTTP responds object
+   * @param  {function} next The next middleware
+   */
+  static async displayNameExists(
+    req: Request,
+    res: Response,
+    next: NextFunction
+  ) {
+    const { displayName } = req.body as IUser;
+    const userExists = await userService.findUserByDisplayName(displayName);
+    if (userExists) {
+      const message = `The username: '${displayName}' is already taken`;
+      return ResponseHandler.sendResponse(res, 409, false, message);
+    }
+    return next();
+  }
 }

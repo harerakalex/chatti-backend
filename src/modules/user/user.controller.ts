@@ -73,4 +73,20 @@ export class UserController {
       return ResponseHandler.sendErrorResponse(res, error);
     }
   }
+
+  /**
+   * @description user should be able to view the user profile
+   * @param  {object} req The http request object
+   * @param  {object} res The http response object
+   */
+  static async viewUserProfile(req: Request, res: Response) {
+    try {
+      const { displayName }: { displayName: string } = req.params as any;
+      const user = await userService.findUserByDisplayName(displayName);
+      const message = 'Successfull retrieved user profile';
+      return ResponseHandler.sendResponse(res, 200, true, message, user);
+    } catch (error) {
+      return ResponseHandler.sendErrorResponse(res, error);
+    }
+  }
 }
