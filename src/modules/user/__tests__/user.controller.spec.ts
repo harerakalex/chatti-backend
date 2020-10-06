@@ -9,9 +9,15 @@ describe(UserController, () => {
   let createUserSpy: any;
   let updateSpy: any;
   let searchForUserSpy: any;
+  let spyOnfindUserByDisplayName: any;
   // let errorResponseSpy: any;
 
-  req = { body: userInfo, user: userInfo, query: { name: 'carlos' } };
+  req = {
+    body: userInfo,
+    user: userInfo,
+    query: { name: 'carlos' },
+    params: { displayName: 'carlos' },
+  };
 
   res = {
     status: jest
@@ -41,6 +47,7 @@ describe(UserController, () => {
           firstName: 'carlos',
           lastName: 'harera',
           email: 'hareraloston@gmail.com',
+          displayName: 'gringo',
         },
       };
       expect(res.status).toBeCalledWith(201);
@@ -93,6 +100,27 @@ describe(UserController, () => {
     it('Sould send the error', async () => {
       searchForUserSpy.mockRejectedValueOnce('an error');
       await UserController.searchForUser(req, res);
+      expect(ResponseHandler.sendErrorResponse).toHaveBeenCalled();
+    });
+  });
+
+  describe(UserController.viewUserProfile, () => {
+    beforeAll(() => {
+      spyOnfindUserByDisplayName = jest.spyOn(
+        userService,
+        'findUserByDisplayName'
+      );
+    });
+
+    it('Should find the user', async () => {
+      spyOnfindUserByDisplayName.mockReturnValue(userInfo);
+      await UserController.viewUserProfile(req, res);
+      expect(res.status).toBeCalledWith(200);
+    });
+
+    it('Sould send the error', async () => {
+      spyOnfindUserByDisplayName.mockRejectedValueOnce('an error');
+      await UserController.viewUserProfile(req, res);
       expect(ResponseHandler.sendErrorResponse).toHaveBeenCalled();
     });
   });

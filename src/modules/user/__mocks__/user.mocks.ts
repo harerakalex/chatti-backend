@@ -11,6 +11,7 @@ export const userInfo = {
   lastName,
   email,
   password,
+  displayName,
 };
 
 export const updateUserInfo = {

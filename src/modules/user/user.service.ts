@@ -3,6 +3,7 @@ import { BaseService } from '../shared/base.service';
 import { database } from '../../database';
 import { User } from '../../database/models/User';
 import { IUser } from '../../database/models/interfaces/user.interface';
+import { Picture } from '../../database/models/Picture';
 
 export default class UserService extends BaseService<User, number> {
   constructor(user = database.getRepository(User)) {
@@ -55,6 +56,22 @@ export default class UserService extends BaseService<User, number> {
         },
       },
     });
+    return result;
+  }
+
+  /**
+   * @description Search for user
+   * @param  {string} displayName query to search for
+   * @returns {Promise} The object containing user information
+   */
+  async findUserByDisplayName(displayName: string) {
+    const result = await this.findOneByProp(
+      {
+        prop: 'displayName',
+        value: displayName,
+      },
+      [Picture]
+    );
     return result;
   }
 }

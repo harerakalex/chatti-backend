@@ -42,9 +42,16 @@ describe(UserService, () => {
     expect(result.displayName).toEqual(updateUserInfo.displayName);
   });
 
-  it('Should find a user', async () => {
+  it('Should find the users', async () => {
     const result = await userService.findUserByNames('carlos');
     expect(result[0].firstName).toEqual(userInfo.firstName);
+  });
+
+  it('Should find a user profile', async () => {
+    const result = await userService.findUserByDisplayName(
+      userInfo.displayName
+    );
+    expect(result.firstName).toEqual(userInfo.firstName);
   });
 
   // it('Should find a user', async () => {
