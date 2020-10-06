@@ -113,7 +113,7 @@ describe(UserController, () => {
     });
 
     it('Should find the user', async () => {
-      searchForUserSpy.mockReturnValue(userInfo);
+      spyOnfindUserByDisplayName.mockReturnValue(userInfo);
       await UserController.viewUserProfile(req, res);
       expect(res.status).toBeCalledWith(200);
     });
