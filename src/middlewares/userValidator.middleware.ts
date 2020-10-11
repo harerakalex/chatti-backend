@@ -130,4 +130,24 @@ export class UserValidator {
     }
     return next();
   }
+
+  /**
+   * @description This middleware checks if receiver exists by id
+   * @param  {object} req The HTTP request sent
+   * @param  {object} res The HTTP responds object
+   * @param  {function} next The next middleware
+   */
+  static async receiverExistsById(
+    req: Request,
+    res: Response,
+    next: NextFunction
+  ) {
+    const { receiverId }: { receiverId: number } = req.body as any;
+    const receiverExists = await userService.findUserById(receiverId);
+    if (!receiverExists) {
+      const message = 'The user does not exists';
+      return ResponseHandler.sendResponse(res, 404, false, message);
+    }
+    return next();
+  }
 }

@@ -74,6 +74,19 @@ export default class UserService extends BaseService<User, number> {
     );
     return result;
   }
+
+  /**
+   * @description Find user by Id
+   * @param  {string} id id to look for
+   * @returns {Promise} The object containing user information
+   */
+  async findUserById(id: number) {
+    const result = await this.findOneByProp({
+      prop: 'id',
+      value: id,
+    });
+    return result;
+  }
 }
 
 export const userService = new UserService();

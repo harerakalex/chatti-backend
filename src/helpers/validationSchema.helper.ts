@@ -19,3 +19,8 @@ export const updateUserSchema = Joi.object({
   bio: Joi.string().min(5).max(300),
   displayName: Joi.string().min(2).max(15),
 });
+
+export const messageSchema = Joi.object({
+  message: Joi.string().trim().not('').required(),
+  receiverId: Joi.number().positive().required(),
+});
