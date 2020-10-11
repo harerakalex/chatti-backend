@@ -54,6 +54,11 @@ describe(UserService, () => {
     expect(result.firstName).toEqual(userInfo.firstName);
   });
 
+  it('Should find a user by id', async () => {
+    const result = await userService.findUserById(updateUserInfo.id);
+    expect(result.id).toEqual(updateUserInfo.id);
+  });
+
   // it('Should find a user', async () => {
   //   myspy.mockResolvedValue(mockCreatedProvider);
   //   const result = await userServiceUsingDb.findUserByNames('carlos1');

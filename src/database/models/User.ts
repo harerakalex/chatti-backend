@@ -7,9 +7,11 @@ import {
   CreatedAt,
   UpdatedAt,
   HasOne,
+  HasMany,
 } from 'sequelize-typescript';
 import { Base } from '../base';
 import { Picture } from './Picture';
+import { Message } from './Message';
 
 @Table
 export class User extends Base<User> {
@@ -53,4 +55,7 @@ export class User extends Base<User> {
 
   @HasOne(() => Picture)
   picture: Picture;
+
+  @HasMany(() => Message)
+  messages: Message[];
 }
