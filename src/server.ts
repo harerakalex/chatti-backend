@@ -10,12 +10,14 @@ import morgan from 'morgan';
 import { logger } from './config/logger';
 import { indexRouter } from './modules';
 import { passportConfig } from './config/passport.config';
+import SocketIO from './helpers/socketIO.helper';
 
 config();
 logger();
 
 const app = express();
 const port = process.env.PORT || 3000;
+SocketIO(app);
 
 app.use(cors());
 app.use(morgan('dev'));
@@ -30,7 +32,7 @@ app.use(
     secret: process.env.SESSION_SECRET_KEY,
     resave: true,
     saveUninitialized: true,
-  })
+  }),
 );
 
 app.use('/api/v1', indexRouter);
@@ -41,3 +43,5 @@ app.use((req: Request, res: Response) => {
 app.listen(port, () => {
   winston.info(`Server Listening on Port: ${port}`);
 });
+
+export default app;

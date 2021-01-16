@@ -1,6 +1,8 @@
 import { Request, Response } from 'express';
+
 import { messageService } from './message.service';
 import { ResponseHandler } from '../../helpers/responseHandler.helper';
+import eventEmitter from '../../helpers/eventEmitter';
 
 export class MessageController {
   /**
@@ -15,6 +17,8 @@ export class MessageController {
       req.body.senderId = userId;
       const sentMessage = await messageService.saveMessage(req.body);
       const message = 'Message sent successfully';
+      eventEmitter.emit('notify', sentMessage);
+
       return ResponseHandler.sendResponse(res, 201, true, message, sentMessage);
     } catch (error) {
       return ResponseHandler.sendErrorResponse(res, error);
