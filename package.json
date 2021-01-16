@@ -20,11 +20,12 @@
     "db:migrate": "yarn sequelize db:migrate",
     "db:migrate:undo": "yarn sequelize db:migrate:undo",
     "db:migrate:rollback": "yarn sequelize db:migrate:undo:all",
-    "db:create:db": "yarn sequelize db:create chattidb",
+    "db:create:db": "yarn sequelize db:create chattidb-test",
     "db:drop:db": "yarn sequelize db:drop chattidb"
   },
   "dependencies": {
     "@types/bcrypt": "^3.0.0",
+    "@types/socket.io": "^2.1.12",
     "bcrypt": "^5.0.0",
     "body-parser": "^1.19.0",
     "cloudinary": "^1.23.0",
@@ -45,6 +46,7 @@
     "sequelize": "^5.21.12",
     "sequelize-cli": "^6.2.0",
     "sequelize-typescript": "^1.1.0",
+    "socket.io": "^3.0.4",
     "winston": "^3.3.3"
   },
   "devDependencies": {
