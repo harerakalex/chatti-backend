@@ -2,53 +2,10 @@ import { Request, Response, NextFunction } from 'express';
 import passport from 'passport';
 import jwt from 'jsonwebtoken';
 import { userService } from '../modules/user/user.service';
-import { GeneralValidator } from './generalValidator.middleware';
 import { ResponseHandler } from '../helpers/responseHandler.helper';
-import * as schemas from '../helpers/validationSchema.helper';
 import { IUser } from '../database/models/interfaces/user.interface';
 
 export class UserValidator {
-  /**
-   * @description This middleware checks for the required properties
-   * @param  {object} req The HTTP request sent
-   * @param  {object} res The HTTP responds object
-   * @param  {function} next The next middleware
-   * @return {any} The next middleware or the http responds
-   */
-  static validateUserBody(req: Request, res: Response, next: NextFunction) {
-    return GeneralValidator.validator(
-      res,
-      next,
-      req.body,
-      schemas.registerUserSchema
-    );
-  }
-
-  /**
-   * @description This middleware checks for the required properties
-   * @param  {object} req The HTTP request sent
-   * @param  {object} res The HTTP responds object
-   * @param  {function} next The next middleware
-   */
-  static validateLoginBody(req: Request, res: Response, next: NextFunction) {
-    return GeneralValidator.validator(res, next, req.body, schemas.loginSchema);
-  }
-
-  /**
-   * @description This middleware checks for the required properties
-   * @param  {object} req The HTTP request sent
-   * @param  {object} res The HTTP responds object
-   * @param  {function} next The next middleware
-   */
-  static validateUpdateUser(req: Request, res: Response, next: NextFunction) {
-    return GeneralValidator.validator(
-      res,
-      next,
-      req.body,
-      schemas.updateUserSchema
-    );
-  }
-
   /**
    * @description This middleware checks if user already exists by email
    * @param  {object} req The HTTP request sent
@@ -58,7 +15,7 @@ export class UserValidator {
   static async validateUserExists(
     req: Request,
     res: Response,
-    next: NextFunction
+    next: NextFunction,
   ) {
     const { email } = req.body;
     const message = `The user with email: '${email}' already exists`;
@@ -106,7 +63,7 @@ export class UserValidator {
           }
           req.user = decoded;
           next();
-        }
+        },
       );
     }
   }
@@ -120,7 +77,7 @@ export class UserValidator {
   static async displayNameExists(
     req: Request,
     res: Response,
-    next: NextFunction
+    next: NextFunction,
   ) {
     const { displayName } = req.body as IUser;
     const userExists = await userService.findUserByDisplayName(displayName);
@@ -140,7 +97,7 @@ export class UserValidator {
   static async receiverExistsById(
     req: Request,
     res: Response,
-    next: NextFunction
+    next: NextFunction,
   ) {
     const { receiverId }: { receiverId: number } = req.body as any;
     const receiverExists = await userService.findUserById(receiverId);
