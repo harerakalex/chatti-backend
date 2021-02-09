@@ -1,32 +1,34 @@
 import { Router } from 'express';
 import { UserController } from './user.controller';
 import { UserValidator } from '../../middlewares/userValidator.middleware';
+import { GeneralValidator } from '../../middlewares/generalValidator.middleware';
+import * as schemas from '../../helpers/validationSchema.helper';
 
 export const userRouter = Router();
 
 // Route for user registration
 userRouter.post(
   '/signup',
-  UserValidator.validateUserBody,
+  GeneralValidator.validationHandler(schemas.registerUserSchema),
   UserValidator.validateUserExists,
   UserValidator.displayNameExists,
-  UserController.addNewUser
+  UserController.addNewUser,
 );
 
 // Route for user sign in
 userRouter.post(
   '/login',
-  UserValidator.validateLoginBody,
+  GeneralValidator.validationHandler(schemas.loginSchema),
   UserValidator.passportAuthenticate,
-  UserController.userLogin
+  UserController.userLogin,
 );
 
 // routes for updating user profile
 userRouter.put(
   '/profile',
   UserValidator.verifyToken,
-  UserValidator.validateUpdateUser,
-  UserController.updateUserProfile
+  GeneralValidator.validationHandler(schemas.updateUserSchema),
+  UserController.updateUserProfile,
 );
 
 // Routes for searching a user by name

@@ -1,7 +1,8 @@
 import { Router } from 'express';
 import { MessageController } from './message.controller';
 import { UserValidator } from '../../middlewares/userValidator.middleware';
-import { MessageMiddleware } from '../../middlewares/messageValidator.middleware';
+import { GeneralValidator } from '../../middlewares/generalValidator.middleware';
+import * as schemas from '../../helpers/validationSchema.helper';
 
 export const messageRouter = Router();
 
@@ -9,7 +10,7 @@ export const messageRouter = Router();
 messageRouter.post(
   '/',
   UserValidator.verifyToken,
-  MessageMiddleware.ValidateMessageBody,
+  GeneralValidator.validationHandler(schemas.messageSchema),
   UserValidator.receiverExistsById,
-  MessageController.sendMessage
+  MessageController.sendMessage,
 );
