@@ -36,3 +36,10 @@ userRouter.get('/', UserController.searchForUser);
 
 // Route to view user profile
 userRouter.get('/profile/:displayName', UserController.viewUserProfile);
+
+// Route for getting user chats
+userRouter.get(
+  '/:userId/messages',
+  UserValidator.verifyToken,
+  UserController.userChats,
+);

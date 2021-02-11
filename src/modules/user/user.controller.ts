@@ -2,6 +2,7 @@ import { Request, Response } from 'express';
 import { userService } from './user.service';
 import { ResponseHandler } from '../../helpers/responseHandler.helper';
 import { UserAuth } from '../../helpers/userAuth.helper';
+import { messageService } from '../messages/message.service';
 
 export class UserController {
   /**
@@ -85,6 +86,24 @@ export class UserController {
       const user = await userService.findUserByDisplayName(displayName);
       const message = 'Successfull retrieved user profile';
       return ResponseHandler.sendResponse(res, 200, true, message, user);
+    } catch (error) {
+      return ResponseHandler.sendErrorResponse(res, error);
+    }
+  }
+
+  /**
+   * @description Get user chats
+   * @param  {object} req The http request object
+   * @param  {object} res The http response object
+   * @returns The http response object
+   */
+  static async userChats(req: Request | any, res: Response) {
+    try {
+      const { userId } = req.params;
+      const chats = await messageService.findUserChats(userId);
+      const message = 'Chats retrieved successfully';
+
+      return ResponseHandler.sendResponse(res, 200, true, message, chats);
     } catch (error) {
       return ResponseHandler.sendErrorResponse(res, error);
     }
