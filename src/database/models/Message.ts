@@ -44,6 +44,9 @@ export class Message extends Base<Message> {
   @Column
   updatedAt!: Date;
 
-  @BelongsTo(() => User)
-  user: User;
+  @BelongsTo(() => User, 'senderId')
+  sender: User;
+
+  @BelongsTo(() => User, 'receiverId')
+  receiver: User;
 }

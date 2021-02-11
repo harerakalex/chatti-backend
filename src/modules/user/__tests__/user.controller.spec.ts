@@ -1,7 +1,9 @@
 import { UserController } from '../user.controller';
 import { userService } from '../user.service';
+import { messageService } from '../../messages/message.service';
 import { ResponseHandler } from '../../../helpers/responseHandler.helper';
 import { userInfo, updateUserInfo } from '../__mocks__/user.mocks';
+import { messageInfo } from '../../messages/__mocks__/message.mock';
 
 describe(UserController, () => {
   let req: any;
@@ -10,6 +12,7 @@ describe(UserController, () => {
   let updateSpy: any;
   let searchForUserSpy: any;
   let spyOnfindUserByDisplayName: any;
+  let spyOnUserChats: any;
   // let errorResponseSpy: any;
 
   req = {
@@ -108,7 +111,7 @@ describe(UserController, () => {
     beforeAll(() => {
       spyOnfindUserByDisplayName = jest.spyOn(
         userService,
-        'findUserByDisplayName'
+        'findUserByDisplayName',
       );
     });
 
@@ -121,6 +124,24 @@ describe(UserController, () => {
     it('Sould send the error', async () => {
       spyOnfindUserByDisplayName.mockRejectedValueOnce('an error');
       await UserController.viewUserProfile(req, res);
+      expect(ResponseHandler.sendErrorResponse).toHaveBeenCalled();
+    });
+  });
+
+  describe(UserController.userChats, () => {
+    beforeAll(() => {
+      spyOnUserChats = jest.spyOn(messageService, 'findUserChats');
+    });
+
+    it('Should find the user messages', async () => {
+      spyOnUserChats.mockReturnValue(messageInfo);
+      await UserController.userChats(req, res);
+      expect(res.status).toBeCalledWith(200);
+    });
+
+    it('Should send the error', async () => {
+      spyOnUserChats.mockRejectedValueOnce('an error');
+      await UserController.userChats(req, res);
       expect(ResponseHandler.sendErrorResponse).toHaveBeenCalled();
     });
   });

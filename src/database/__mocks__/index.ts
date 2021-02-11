@@ -39,7 +39,7 @@ export class MockRepository<T extends Base<T>> {
 
   async findByPk(
     identifier: Identifier,
-    options?: Omit<NonNullFindOptions, 'where'>
+    options?: Omit<NonNullFindOptions, 'where'>,
   ): Promise<Model<T>> {
     const pkField = this.model.primaryKeyAttribute;
     const result = this.data.find((m: any) => m[pkField] === identifier);
@@ -56,15 +56,15 @@ export class MockRepository<T extends Base<T>> {
     const [[key, value]] = Object.entries(options.where);
     const modelAttributes = this.model.rawAttributes;
     const normalValues = Object.entries(values).map((v) =>
-      typeof v[1] === 'object' ? Object.entries(v[1])[0] : v
+      typeof v[1] === 'object' ? Object.entries(v[1])[0] : v,
     );
     const uniqueEntries = Object.entries(normalValues).filter(
-      (k) => modelAttributes[k[1][0]].unique
+      (k) => modelAttributes[k[1][0]].unique,
     );
     const violation = uniqueEntries.some(this.uniqueViolation);
     if (violation) return new Error();
     const existingIndex = this.data.findIndex(
-      (d: any) => d[key.toString()] === value
+      (d: any) => d[key.toString()] === value,
     );
     const existing = this.data[existingIndex];
     const updated = { ...existing };
@@ -88,21 +88,15 @@ export class MockRepository<T extends Base<T>> {
     const { where } = options;
     if (Object.values(where).length) {
       const [[key, value]] = Object.entries(where);
-      const stringValue =
-        value && typeof value === 'string'
-          ? value.trim()
-          : typeof value === 'number'
-          ? value.toString()
-          : value && value !== '%'
-          ? (value[Op.iLike] as string).replace(/[\$%]/g, '')
-          : null;
-      allEntries = stringValue
-        ? this.data.filter((e: any) => e[key.toString()] === stringValue)
-        : allEntries;
+      allEntries = this.data.filter((e: any) => e[key] == value);
     }
     const result = allEntries.map((e) => this.wrapInModel(e));
     return Promise.resolve(result);
   }
+
+  // async findAll(options: NonNullFindOptions) {
+  //   return Promise.resolve(this.data.map((item) => this.wrapInModel(item)));
+  // }
 
   async count(countOptions?: CountOptions) {
     let result: number = this.data.length;
@@ -110,7 +104,7 @@ export class MockRepository<T extends Base<T>> {
     if (Object.values(where).length) {
       const [key, value] = Object.entries(where);
       const resultData = this.data.filter(
-        (e: any) => e[key.toString()] === value
+        (e: any) => e[key.toString()] === value,
       );
       result = resultData.length;
     }
@@ -122,7 +116,7 @@ export class MockRepository<T extends Base<T>> {
 }
 
 export default function getMockRepository<T extends Model<T>>(
-  model: new () => T
+  model: new () => T,
 ) {
   return mockDatabase.getRepository(model);
 }

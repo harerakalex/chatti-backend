@@ -49,7 +49,7 @@ describe(UserService, () => {
 
   it('Should find a user profile', async () => {
     const result = await userService.findUserByDisplayName(
-      userInfo.displayName
+      userInfo.displayName,
     );
     expect(result.firstName).toEqual(userInfo.firstName);
   });
